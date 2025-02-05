@@ -1,0 +1,4 @@
+QScrollArea {
+    background: #333; /* Dark Gray Background */
+    border: 5px solid #472980;
+}

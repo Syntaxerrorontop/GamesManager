@@ -1,0 +1,5 @@
+QLabel {
+    color: rgb(40, 1, 82);
+    font-size: 70px;
+    font-weight: bold;
+}

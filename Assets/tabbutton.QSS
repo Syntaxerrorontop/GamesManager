@@ -1,0 +1,23 @@
+QTabBar::tab {
+    min-width: 445px;  /* Mindestbreite der Tabs */
+    min-height: 50px;  /* Mindesthöhe der Tabs */
+    padding: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    background:rgb(162, 162, 240);
+    border: 1px solid #555;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    margin-right: 5px;
+}
+QTabBar::tab:selected {
+    background: #4d4d99;  /* Farbe des ausgewählten Tabs */
+    border-bottom: 5px solid #8957ff;
+}
+QTabBar::tab:hover {
+    background: #d9d9ff;  /* Hover-Effekt */
+    border-bottom: 5px solid #b3b3ff;
+}
+QTabBar::tab:first {
+    margin-left: 8px;  /* Move the first tab 2px from the left */
+}

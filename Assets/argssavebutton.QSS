@@ -1,0 +1,10 @@
+QPushButton {
+    background-color: #bb97fc;  /* Dark Gray Background */
+    color: rgb(40, 1, 82);
+    font-size: 25px;  /* Text Size */
+    min-width: 300px;
+    min-height: 41px;
+}
+QPushButton::hover {
+    background: #debfff;
+}

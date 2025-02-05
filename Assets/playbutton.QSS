@@ -1,0 +1,15 @@
+QPushButton {
+    color:rgb(40, 1, 82);
+    background: #c69df2;
+    min-width: 300px;
+    min-height: 50px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 2px solid #555;
+    font-size: 30px;
+}
+QPushButton::hover {
+    background: #debfff;
+}
