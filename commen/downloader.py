@@ -1,20 +1,5 @@
-import requests
-import re
-import time
-import json
-import random
-import string
-import os
-import logging
-import rarfile
-import subprocess
-from tqdm import tqdm
-import py7zr
-import patoolib
-from pyunpack import Archive
-from playwright.sync_api import sync_playwright
-from playwright_stealth import stealth_sync
-#playwright install
+from . import re, time, json, random, string, os, logging
+from . import requests, rarfile, tqdm, sync_playwright
 
 from .commen import Header, Payload, Folder, File, load_json, save_json
 

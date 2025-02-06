@@ -1,9 +1,4 @@
-import time
-import subprocess
-import os
-import psutil
-import logging
-import json
+from . import time, subprocess, os, psutil, logging, json
 from .commen import CONFIG_DIR, GAMES_JSON_DATA, save_json, load_json
 
 class GameInstance:

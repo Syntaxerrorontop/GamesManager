@@ -1,10 +1,7 @@
 ################################################
 # Imports
 
-import logging
-import shutil
-import os
-import json
+from . import logging, os, shutil, json
 
 ###############################################
 # Inits

@@ -1,3 +1,6 @@
+from . import re
+from . import requests
+
 STEAMRIP = "https://steamrip.com/{start}{middel}/"
 STEAMRIP_NAME = "steamrip"
 STEAMRIP_INDICATOR = '<h1 class="page-title">Search Results for: <span>{search}/</span>'
@@ -5,9 +8,6 @@ STEAMRIP_INDICATOR = '<h1 class="page-title">Search Results for: <span>{search}/
 SEARCH_STRING = "?s="
 
 FILTER = ["categoryopen-world", "top-games", "updated-games","games-list","steps-for-games","contact-us","terms-and-conditions","privacy-policy", "#"]
-
-import requests
-import re
 
 class Searcher:
     def __init__(self, method = STEAMRIP_NAME):
