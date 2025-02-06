@@ -1,9 +1,8 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QStackedWidget, QHBoxLayout, QPushButton, QLineEdit
 from PyQt5.QtCore import Qt
 
-import logging
-
 from . import commen, rungame
+from . import threading, logging, os
 
 
 class LibaryTab(QWidget):
