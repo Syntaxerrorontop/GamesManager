@@ -384,6 +384,74 @@ class Extractor:
         except rarfile.Error as e:
             logging.error(f"Downloader:main Error while Extraction: {e}")
 
+def _game_naming():
+        game_folder, folder_name = _steamrip_get_main_path()
+        
+        if folder_name in os.listdir(os.path.join(os.getcwd(), GAME_DIR)):
+            logging.info(f"Applying Patch for {folder_name}")
+        
+        Folder.move(game_folder, os.path.join(os.getcwd(), GAME_DIR))
+        Folder.delete(os.path.join(os.getcwd(), TEMP_DIR))
+        
+        logging.info("Searching for every Executable file...")
+        exes = []
+        full_path_game_execution = None
+        
+        for name in os.listdir(os.path.join(os.path.join(os.getcwd(), GAME_DIR, folder_name))):
+            if name.endswith(".exe"):
+                if folder_name.replace(" ", "").lower() in name.replace(" ", "").lower():
+                        full_path_game_execution = os.path.join(GAME_DIR, folder_name, name)
+                        logging.info(f"Main game file detected: {full_path_game_execution}")
+                        break
+        
+        if full_path_game_execution==None:
+            for path, subdirs, files in os.walk(os.path.join(os.getcwd(), GAME_DIR, folder_name)):
+                for name in files:
+                    if name.endswith(".exe"):
+                        exes.append(name)
+                        if folder_name.replace(" ", "").lower() in name.replace(" ", "").lower():
+                            full_path_game_execution = os.path.join(GAME_DIR, folder_name, name)
+                            logging.info(f"Main game file detected: {full_path_game_execution}")
+                        
+                        else:
+                            temp_name = ""
+                            for part in folder_name.split(" "):
+                                temp_name += part[0]
+
+                            temp_name += ".exe"
+                            
+                            if temp_name == name:
+                                pass
+                                full_path_game_execution = os.path.join(GAME_DIR, folder_name, temp_name)
+        if full_path_game_execution == None or not full_path_game_execution.endswith(".exe"):
+            for file in exes:
+                print(file)
+                if not file.endswith(".exe"):
+                    continue
+                if "unity" in file.lower():
+                    continue
+                full_path_game_execution = os.path.join(GAME_DIR, folder_name, file)
+                break
+    
+        return full_path_game_execution, folder_name
+
+def _add_game_info(full_path_game_execution, folder_name):
+        logging.debug(full_path_game_execution)
+        
+        if not File.check_existence(os.path.join(os.getcwd(), CONFIG_DIR), GAMES_JSON_DATA):
+            save_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA), {"Games":{folder_name: {"args": [], "playtime": 0, "exe": full_path_game_execution}}})
+        
+        game_data = load_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA))
+        
+        if folder_name in game_data["Games"].keys():
+            
+            game_data["Games"][folder_name] = {"args": game_data["Games"][folder_name]["args"], "playtime": game_data["Games"][folder_name]["playtime"], "exe": full_path_game_execution}
+        
+        else:
+            game_data["Games"][folder_name] = {"args": [], "playtime": 0, "exe": full_path_game_execution}
+        
+        save_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA), game_data)
+
 def start(url):
     logging.info(f"Downloader:main Starting Download for: {url}")
     __function, __master_key = _generate_master_key(url)
@@ -404,21 +472,20 @@ def start(url):
     
     logging.info(f"Downloader:main Best downloader: {__best_downloader_key}")
     
-    #__downloader_function = __best_downloader["downloader"]
+    __downloader_function = __best_downloader["downloader"]
     
     logging.info("Downloader:main Successfull build downloader function")
     
-    #__download_request = __downloader_function(__links[__best_downloader_key])
+    __download_request = __downloader_function(__links[__best_downloader_key])
     
-    #logging.info(f"Downloader:main Starting the Download with: {__download_request}")
+    logging.info(f"Downloader:main Starting the Download with: {__download_request}")
     
     Folder.check_existence(os.getcwd(), "Temp")
     Folder.check_existence(os.getcwd(), "Games")
     Folder.check_existence(os.getcwd(), "Config")
     
     try:
-        pass
-        #_download(__download_request ["url"], __download_request ["payload"], __download_request ["headers"], __file_name, __download_request ["method"], __master_key)
+        _download(__download_request ["url"], __download_request ["payload"], __download_request ["headers"], __file_name, __download_request ["method"], __master_key)
     
     except KeyboardInterrupt:
         logging.warning(f"Download interrupted by User")
@@ -428,66 +495,15 @@ def start(url):
     
     logging.info("Downloader:main Download finished")
     
-    #if downloader_data[__master_key]["compression"] == "rar":
-    #    Extractor.rar(os.path.join(os.getcwd(), TEMP_DIR, __file_name_with_extension))
+    if downloader_data[__master_key]["compression"] == "rar":
+        Extractor.rar(os.path.join(os.getcwd(), TEMP_DIR, __file_name_with_extension))
     
-    #else:
-    #    logging.error("Downloader:main Could not extract invailid format")
+    else:
+        logging.error("Downloader:main Could not extract invailid format")
     
     if __master_key == "steamrip":
-        game_folder, folder_name = None, "Life is Strange Before the Storm Remastered"#_steamrip_get_main_path()
-        
-        #if folder_name in os.listdir(os.path.join(os.getcwd(), GAME_DIR)):
-        #    logging.info(f"Applying Patch for {folder_name}")
-        
-        #Folder.move(game_folder, os.path.join(os.getcwd(), GAME_DIR))
-        #Folder.delete(os.path.join(os.getcwd(), TEMP_DIR))
-        
-        logging.info("Searching for every Executable file...")
-        exes = []
-        full_path_game_execution = None
-        for path, subdirs, files in os.walk(os.path.join(os.getcwd(), GAME_DIR, folder_name)):
-            for name in files:
-                if name.endswith(".exe"):
-                    exes.append(name)
-                    if folder_name.replace(" ", "").lower() in name.replace(" ", "").lower():
-                        full_path_game_execution = os.path.join(GAME_DIR, folder_name, name)
-                        logging.info(f"Main game file detected: {full_path_game_execution}")
-                    
-                    else:
-                        temp_name = ""
-                        for part in folder_name.split(" "):
-                            temp_name += part[0]
-
-                        temp_name += ".exe"
-                        
-                        if temp_name == name:
-                            pass
-                            full_path_game_execution = os.path.join(GAME_DIR, folder_name, temp_name)
-        if full_path_game_execution == None or not full_path_game_execution.endswith(".exe"):
-            for file in exes:
-                print(file)
-                if not file.endswith(".exe"):
-                    continue
-                if "unity" in file.lower():
-                    continue
-                full_path_game_execution = os.path.join(GAME_DIR, folder_name, file)
-                break
-        print(full_path_game_execution)
-        
-        if not File.check_existence(os.path.join(os.getcwd(), CONFIG_DIR), GAMES_JSON_DATA):
-            save_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA), {"Games":{folder_name: {"args": [], "playtime": 0, "exe": full_path_game_execution}}})
-        
-        game_data = load_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA))
-        
-        if folder_name in game_data["Games"].keys():
-            
-            game_data["Games"][folder_name] = {"args": game_data["Games"][folder_name]["args"], "playtime": game_data["Games"][folder_name]["playtime"], "exe": full_path_game_execution}
-        
-        else:
-            game_data["Games"][folder_name] = {"args": [], "playtime": 0, "exe": full_path_game_execution}
-        
-        save_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA), game_data)
+        full_path_game_execution, folder_name = _game_naming()
+        _add_game_info(full_path_game_execution, folder_name)
 
 class UnknownFileHost(Exception):
     def __init__(self, url):

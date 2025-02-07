@@ -36,3 +36,4 @@ from . import commen
 from . import libarytab
 from . import rungame
 from . import search
+from . import downloadtab
