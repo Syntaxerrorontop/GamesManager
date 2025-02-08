@@ -29,6 +29,7 @@ class DownloadTab(QWidget):
     def __init__(self):
         super().__init__()
         logging.info("Generating Download tab")
+        self.delete_list = []
         self.searcher = search.Searcher()
         #self.downloader = downloader.Downloader()
         
@@ -84,6 +85,14 @@ class DownloadTab(QWidget):
     
     def deploy_search(self):
         results = self.searcher.search(self.search_input.text())
+        
+        for i in reversed(range(self.results_list.count())):
+            item = self.results_list.takeItem(i)  # Removes item
+            del item  # Ensure deletion
+
+        self.delete_list.clear()  # ✅ Remove old references
+
+        
         for result in results:
             self.add_result(result["name"], result["link"])
 
@@ -103,3 +112,8 @@ class DownloadTab(QWidget):
         item.setSizeHint(list_item_widget.sizeHint())
         self.results_list.addItem(item)
         self.results_list.setItemWidget(item, list_item_widget)
+        
+        self.delete_list.append(item)
+        self.delete_list.append(list_item_widget)
+        self.delete_list.append(button)  # Keep track of buttons if needed
+
