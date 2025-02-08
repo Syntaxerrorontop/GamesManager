@@ -1,7 +1,9 @@
 from . import re, time, json, random, string, os, logging
-from . import requests, rarfile, tqdm, sync_playwright
+from . import requests, rarfile, ctypes, tqdm, sync_playwright
 
-from .commen import Header, Payload, Folder, File, load_json, save_json
+from . import QMessageBox
+
+from .commen import Header, Payload, Folder, File, load_json, save_json, error, HEADLESS
 
 ################################################
 # USER config
@@ -32,17 +34,18 @@ def init():
 class DirectLinkDownloader:
     @staticmethod
     def megadb(url) -> str:
-        print(url)
+        logging.debug(url)
         _id = url.split("/")[-1]
         return None
     
     @staticmethod
     def filecrypt(url) -> str:
-        print(url)
+        logging.debug(url)
         return None
     
     @staticmethod
     def buzzheavier(url) -> str:
+        logging.debug(url)
         return {"url": url.replace(r"/f/", r"/") + "/download", "payload": None, "headers": None , "method": "get"}
     
     @staticmethod
@@ -52,7 +55,7 @@ class DirectLinkDownloader:
         
         with sync_playwright() as p:
             logging.info("Downloader:1Ficher Creating Broswser intance")
-            browser = p.chromium.launch(headless=False)
+            browser = p.chromium.launch(headless=HEADLESS)
             context = browser.new_context()
             #stealth_sync(context)  # Apply stealth mode directly
             page = context.new_page()
@@ -63,8 +66,10 @@ class DirectLinkDownloader:
             logging.info("Downloader:1Ficher Site loading finished")
                 
             if page.locator("#closeButton").count() > 0:
-                    time.sleep(6)
-                    page.click("#closeButton")
+                    ctypes.windll.user32.MessageBoxW(0, "1Ficher file hosting has a limitation of max downloads\n1 per houre this process will be stopped", "1ficher is on cooldown", 0x40 | 0x1)  
+                    page.close()
+                    browser.close()
+                    return -1
 
             for step in steps:
 
@@ -459,6 +464,8 @@ def start(url):
     logging.info("Downloader:main Preparing function call")
     
     __links, __file_name = __function(url, downloader_data)
+    if __links == "error":
+        logging.error(error[__file_name])
     
     __file_name_with_extension = __file_name + "." + downloader_data[__master_key]["compression"]
     
@@ -477,6 +484,9 @@ def start(url):
     logging.info("Downloader:main Successfull build downloader function")
     
     __download_request = __downloader_function(__links[__best_downloader_key])
+    if isinstance(__download_request, int):
+        logging.error(error[__download_request])
+        return None
     
     logging.info(f"Downloader:main Starting the Download with: {__download_request}")
     

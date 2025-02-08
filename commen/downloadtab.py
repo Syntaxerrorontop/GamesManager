@@ -1,5 +1,5 @@
 from . import QWidget, QHBoxLayout
-from . import threading
+from . import threading, logging
 
 from PyQt5.QtWidgets import (
     QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QPushButton, QListWidget, 
@@ -28,7 +28,7 @@ class SearchThread(QThread):
 class DownloadTab(QWidget):
     def __init__(self):
         super().__init__()
-        
+        logging.info("Generating Download tab")
         self.searcher = search.Searcher()
         #self.downloader = downloader.Downloader()
         
@@ -72,11 +72,13 @@ class DownloadTab(QWidget):
         self.setLayout(main_layout)
 
     def start_search(self):
+        logging.info("Search thread started")
         self.search_thread = SearchThread(self)
         self.search_thread.search_finished.connect(self.search_complete)
         self.search_thread.start()
     
     def search_complete(self):
+        logging.info("Seach completed")
         self.search_button.setText("Search")
         self.search_button.setEnabled(True)
     
@@ -86,7 +88,7 @@ class DownloadTab(QWidget):
             self.add_result(result["name"], result["link"])
 
     def add_result(self, name, url):
-        print("added", name)
+        logging.debug(f"added {name}")
         item = QListWidgetItem(name)
         button = QPushButton("Download")
         button.clicked.connect(lambda _, link=url: threading.Thread(target=downloader.start, args=[link]).start())

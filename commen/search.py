@@ -1,4 +1,4 @@
-from . import re
+from . import re, logging
 from . import requests
 
 STEAMRIP = "https://steamrip.com/{start}{middel}/"
@@ -11,12 +11,14 @@ FILTER = ["categoryopen-world", "top-games", "updated-games","games-list","steps
 
 class Searcher:
     def __init__(self, method = STEAMRIP_NAME):
+        logging.info(f"Init Searcher with method: {method}")
         self.method = method
         
         if self.method == STEAMRIP_NAME:
             self.url = STEAMRIP
     
     def search(self, string):
+        logging.info(f"Starting search with: {string}")
         search_url = "https://steamrip.com/?s=" + string.replace(" ", "+")
         req = requests.get(search_url).text
         if self.method == STEAMRIP_NAME:

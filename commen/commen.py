@@ -17,6 +17,7 @@ class Cords:
         self.y = y
     
     def get(self):
+        logging.debug(f"Cord: ({self.x} | {self.y})")
         return (self.x, self.y)
 
 def get_QSS(path) -> str:
@@ -28,6 +29,7 @@ def get_QSS(path) -> str:
     return qss
 
 def _gen_asset_path(name) -> str:
+    logging.debug(f"Asset_path: {name}")
     return os.path.join(os.getcwd(), ASSET_DIR, name)
 
 ################################################
@@ -65,6 +67,8 @@ NAME = "SyntaxRipper"
 VERSION = "0.0.1"
 DOWNLOADER_VERSION = "1.0.0"
 
+HEADLESS = False
+
 ################################################
 # Consts using function
 
@@ -88,6 +92,11 @@ ARGS_SAVE_BUTTON_LIBARY = get_QSS(_gen_asset_path(AssetFilenames.args_save_butto
 WINDOW_TITLE = f"{NAME}_{VERSION}"
 
 ###############################################
+# error codes
+
+error = {
+    -1: "1Ficher on cooldown"
+}
 
 class Folder:
     @staticmethod
@@ -128,30 +137,39 @@ class Folder:
 
 class Payload:
     def __init__(self):
+        logging.debug("Payload created")
         self._payload = {}
     
     def add_operation(self, operation):
+        logging.debug(f"PAYLOAD: operation added: {operation}")
         self._payload["op"] = operation
     
     def add_id(self, id):
+        logging.debug(f"PAYLOAD: id added: {id}")
         self._payload["id"] = id
     
     def add_rand(self, rand):
+        logging.debug(f"PAYLOAD: rand added: {rand}")
         self._payload["rand"] = rand
     
     def add_referer(self, referer):
+        logging.debug(f"PAYLOAD: referer added: {referer}")
         self._payload["referer"] = referer
     
     def add_method_free(self, method):
+        logging.debug(f"PAYLOAD: free_method added: {method}")
         self._payload["method_free"] = method
     
     def add_method_premium(self, method):
+        logging.debug(f"PAYLOAD: premium_method added: {method}")
         self._payload["method_premium"] = method
     
     def add_dl(self, dl):
+        logging.debug(f"PAYLOAD: dl added: {dl}")
         self._payload["dl"] = dl
     
     def get(self):
+        logging.debug(f"Payload generated: {self._payload}")
         return self._payload
 
 class Header:

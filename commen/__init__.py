@@ -19,10 +19,11 @@ import subprocess
 import requests
 import rarfile
 import psutil
+import ctypes
 
 from tqdm import tqdm
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QStackedWidget, QHBoxLayout, QPushButton, QLineEdit
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QStackedWidget, QHBoxLayout, QPushButton, QLineEdit, QMessageBox
 from PyQt5.QtCore import Qt
 
 from playwright.sync_api import sync_playwright #playwright install
