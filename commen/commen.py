@@ -225,3 +225,7 @@ class File:
         logging.info("File already exists")
         
         return True
+
+# Generating every Possible needed folder
+Folder.check_existence(os.getcwd(), CONFIG_DIR)
+Folder.check_existence(os.getcwd(), GAME_DIR)
