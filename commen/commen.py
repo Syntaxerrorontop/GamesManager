@@ -214,7 +214,7 @@ def load_json(path) -> dict:
 
 class File:
     @staticmethod
-    def check_existence(in_path, file_name, create = True) -> bool:
+    def check_existence(in_path, file_name, create = True, add_conten = "", use_json = False) -> bool:
         logging.info(f"Checking {file_name} existence in {in_path}.")
 
         if not file_name in os.listdir(in_path):
@@ -222,6 +222,16 @@ class File:
             with open(os.path.join(in_path, file_name), "w") as file:
                 file.close()
                 logging.info(f"File created: {create} {file_name}")
+                
+                if add_conten != "":
+                    with open(os.path.join(in_path, file_name), "w") as file:
+                        if use_json:
+                            json.dump(add_conten, file, indent=4)
+                        else:
+                            file.write(add_conten)
+                        file.close()
+                    logging.info(f"Added content to {file_name}")
+                
                 return True
             
             return False
@@ -234,5 +244,5 @@ class File:
 Folder.check_existence(os.getcwd(), CONFIG_DIR)
 Folder.check_existence(os.getcwd(), GAME_DIR)
 
-File.check_existence(os.path.join(os.getcwd(), CONFIG_DIR), GAMES_JSON_DATA)
-File.check_existence(os.path.join(os.getcwd(), CONFIG_DIR), STEAMRIP_JSON_NAME)
+File.check_existence(os.path.join(os.getcwd(), CONFIG_DIR), GAMES_JSON_DATA, add_conten={"Games": {}}, use_json=True)
+File.check_existence(os.path.join(os.getcwd(), CONFIG_DIR), STEAMRIP_JSON_NAME, add_conten={"commenredist": []}, use_json=True)
