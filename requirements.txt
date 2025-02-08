@@ -1,0 +1,7 @@
+requests
+rarfile
+psutil
+ctypes
+tqdm
+PyQt5
+playwright
