@@ -214,11 +214,15 @@ def load_json(path) -> dict:
 
 class File:
     @staticmethod
-    def check_existence(in_path, file_name) -> bool:
+    def check_existence(in_path, file_name, create = True) -> bool:
         logging.info(f"Checking {file_name} existence in {in_path}.")
 
         if not file_name in os.listdir(in_path):
             logging.info(f"File not found")
+            with open(os.path.join(in_path, file_name), "w") as file:
+                file.close()
+                logging.info(f"File created: {create} {file_name}")
+                return True
             
             return False
         
@@ -229,3 +233,6 @@ class File:
 # Generating every Possible needed folder
 Folder.check_existence(os.getcwd(), CONFIG_DIR)
 Folder.check_existence(os.getcwd(), GAME_DIR)
+
+File.check_existence(os.path.join(os.getcwd(), CONFIG_DIR), GAMES_JSON_DATA)
+File.check_existence(os.path.join(os.getcwd(), CONFIG_DIR), STEAMRIP_JSON_NAME)
