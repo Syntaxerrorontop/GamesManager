@@ -1,7 +1,7 @@
 ################################################
 # Imports
 
-from . import logging, os, shutil, json
+from . import logging, os, shutil, json, ctypes
 
 ###############################################
 # Inits
@@ -211,6 +211,10 @@ def load_json(path) -> dict:
         file.close()
     
     return __data
+
+def ask_yes_no(question):
+    result = ctypes.windll.user32.MessageBoxW(0, question, "Confirmation", 4)
+    return result == 6  # 6 = IDYES, 7 = IDNO
 
 class File:
     @staticmethod

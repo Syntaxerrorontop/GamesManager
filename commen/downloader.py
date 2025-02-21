@@ -389,14 +389,19 @@ class Extractor:
         except rarfile.Error as e:
             logging.error(f"Downloader:main Error while Extraction: {e}")
 
-def _game_naming():
-        game_folder, folder_name = _steamrip_get_main_path()
+def _game_naming(use_folder_name = ""):
+        if not use_folder_name:
+            game_folder, folder_name = _steamrip_get_main_path()
         
-        if folder_name in os.listdir(os.path.join(os.getcwd(), GAME_DIR)):
-            logging.info(f"Applying Patch for {folder_name}")
+        else:
+            game_folder, folder_name = os.path.join(os.getcwd(), GAME_DIR) ,use_folder_name
         
-        Folder.move(game_folder, os.path.join(os.getcwd(), GAME_DIR))
-        Folder.delete(os.path.join(os.getcwd(), TEMP_DIR))
+        if not use_folder_name:
+            if folder_name in os.listdir(os.path.join(os.getcwd(), GAME_DIR)):
+                logging.info(f"Applying Patch for {folder_name}")
+            
+            Folder.move(game_folder, os.path.join(os.getcwd(), GAME_DIR))
+            Folder.delete(os.path.join(os.getcwd(), TEMP_DIR))
         
         logging.info("Searching for every Executable file...")
         exes = []
@@ -440,7 +445,7 @@ def _game_naming():
     
         return full_path_game_execution, folder_name
 
-def _add_game_info(full_path_game_execution, folder_name):
+def _add_game_info(full_path_game_execution, folder_name, default = False):
         logging.debug(full_path_game_execution)
         
         if not File.check_existence(os.path.join(os.getcwd(), CONFIG_DIR), GAMES_JSON_DATA):
@@ -448,7 +453,7 @@ def _add_game_info(full_path_game_execution, folder_name):
         
         game_data = load_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA))
         
-        if folder_name in game_data["Games"].keys():
+        if folder_name in game_data["Games"].keys() and not default:
             
             game_data["Games"][folder_name] = {"args": game_data["Games"][folder_name]["args"], "playtime": game_data["Games"][folder_name]["playtime"], "exe": full_path_game_execution}
         

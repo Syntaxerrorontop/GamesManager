@@ -1,7 +1,7 @@
 from . import QWidget, QVBoxLayout, QLabel, QScrollArea, QStackedWidget, QHBoxLayout, QPushButton, QLineEdit
 from . import Qt
 
-from . import commen, rungame
+from . import commen, rungame, downloader
 from . import threading, logging, os 
 
 #w
@@ -47,16 +47,45 @@ class LibaryTab(QWidget):
         
         json_game_data = commen.load_json(os.path.join(os.getcwd(), commen.CONFIG_DIR, commen.GAMES_JSON_DATA))
         
-        for i, game_data in enumerate(json_game_data["Games"]):
+        for i, game_name in enumerate(os.listdir(os.path.join(os.getcwd(), commen.GAME_DIR))):  # Iterate over games
 
-            name = game_data
-            playtime = json_game_data["Games"][name]["playtime"]
-            raw_exe = json_game_data["Games"][name]["exe"]
-            raw_args = json_game_data["Games"][name]["args"]
-            raw_name = name
+            try:
+                name = game_name
+                playtime = json_game_data["Games"][name]["playtime"]
+                raw_exe = json_game_data["Games"][name]["exe"]
+                raw_args = json_game_data["Games"][name]["args"]
+                raw_name = name
+            except KeyError:
+                logging.warning(f"Game {game_name} is not in the games.json file")
+                logging.info("Generating default values")
+                
+                if commen.ask_yes_no(f"Unknown Game: {game_name}\nDo you want to add it to the libary?"):
+                    
+                    if os.path.isdir(os.path.join(os.getcwd(), commen.GAME_DIR, game_name)):
+                        
+                        logging.info("Game is a folder -> adding to Libary")
+                        full_path_game_execution, folder_name = downloader._game_naming(use_folder_name = game_name)
+                        downloader._add_game_info(full_path_game_execution, folder_name, default=True)
+                        
+                        logging.info("Reading Games.json file")
+                        json_game_data = commen.load_json(os.path.join(os.getcwd(), commen.CONFIG_DIR, commen.GAMES_JSON_DATA))
+                        
+                        name = game_name
+                        playtime = json_game_data["Games"][name]["playtime"]
+                        raw_exe = json_game_data["Games"][name]["exe"]
+                        raw_args = json_game_data["Games"][name]["args"]
+                        raw_name = name
+                    
+                    else:
+                        if game_name.endswith(".rar"):
+                            logging.info("Game is a rar file -> extracting")
+                            pass
+                
+                else:
+                    continue
 
             # Create button
-            button = QPushButton(game_data)
+            button = QPushButton(game_name)
             button.setStyleSheet(commen.STACKED_WIDGET_BUTTON_LIBARY)
             button.setFixedHeight(40)  
             button.clicked.connect(lambda _, index=i: self.switch_tab(index))  # Link button to tab switching
