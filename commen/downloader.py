@@ -416,12 +416,16 @@ def _game_naming(use_folder_name = ""):
         
         if full_path_game_execution==None:
             for path, subdirs, files in os.walk(os.path.join(os.getcwd(), GAME_DIR, folder_name)):
+                if not full_path_game_execution == None:
+                    break
                 for name in files:
                     if name.endswith(".exe"):
                         exes.append(name)
                         if folder_name.replace(" ", "").lower() in name.replace(" ", "").lower():
-                            full_path_game_execution = os.path.join(GAME_DIR, folder_name, name)
+                            print(path)
+                            full_path_game_execution = os.path.join(path, name)
                             logging.info(f"Main game file detected: {full_path_game_execution}")
+                            break
                         
                         else:
                             temp_name = ""
@@ -442,7 +446,9 @@ def _game_naming(use_folder_name = ""):
                     continue
                 full_path_game_execution = os.path.join(GAME_DIR, folder_name, file)
                 break
-    
+        
+        full_path_game_execution = full_path_game_execution[len(os.getcwd()) + 1:]
+        
         return full_path_game_execution, folder_name
 
 def _add_game_info(full_path_game_execution, folder_name, default = False):

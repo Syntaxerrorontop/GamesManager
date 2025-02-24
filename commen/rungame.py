@@ -22,7 +22,7 @@ class GameInstance:
             return None
         
         self.qt_play_button.setText("Stop")
-        
+        print(self.executable_path)
         self._start_playtime()
         run_data = [self.executable_path] + self.args
         self.__process = subprocess.Popen(run_data)
