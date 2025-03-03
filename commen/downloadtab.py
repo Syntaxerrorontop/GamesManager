@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QThread, pyqtSignal
 import time
 
-from . import search, downloader
+from . import search, downloader, commen
 
 class SearchThread(QThread):
     search_finished = pyqtSignal()
@@ -30,7 +30,7 @@ class DownloadTab(QWidget):
         super().__init__()
         logging.info("Generating Download tab")
         self.delete_list = []
-        self.searcher = search.Searcher()
+        self.searcher = search.Searcher(method=commen.DYNAMIC_SEARCH_NAME)
         #self.downloader = downloader.Downloader()
         
         main_layout = QHBoxLayout(self)
@@ -63,10 +63,15 @@ class DownloadTab(QWidget):
         right_layout = QVBoxLayout()
         
         self.checkboxes = []
-        for i in range(4):
-            checkbox = QCheckBox(f"Option {i+1}")
-            self.checkboxes.append(checkbox)
-            right_layout.addWidget(checkbox)
+        self.checkbox_games_search = QCheckBox(f"games")
+        self.checkbox_games_search.setChecked(commen.USER_CONFIG.SEARCH_GAMES)
+        self.checkbox_movie_search = QCheckBox(f"Movies")
+        self.checkbox_movie_search.setChecked(commen.USER_CONFIG.SEARCH_MOVIES)
+        self.checkbox_series_search = QCheckBox(f"Series")
+        self.checkbox_series_search.setChecked(commen.USER_CONFIG.SEARCH_SERIES)
+        right_layout.addWidget(self.checkbox_series_search)
+        right_layout.addWidget(self.checkbox_movie_search)
+        right_layout.addWidget(self.checkbox_games_search)
         
         main_layout.addLayout(right_layout)
         
@@ -84,7 +89,7 @@ class DownloadTab(QWidget):
         self.search_button.setEnabled(True)
     
     def deploy_search(self):
-        results = self.searcher.search(self.search_input.text())
+        results = self.searcher.search(self.search_input.text(), self.checkbox_games_search.isChecked(), self.checkbox_movie_search.isChecked(), self.checkbox_series_search.isChecked())
         
         for i in reversed(range(self.results_list.count())):
             item = self.results_list.takeItem(i)  # Removes item

@@ -4,3 +4,4 @@ psutil
 tqdm
 PyQt5
 playwright
+playwright_stealth 

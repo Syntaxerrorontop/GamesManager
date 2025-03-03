@@ -1,15 +1,12 @@
 from . import re, time, json, random, string, os, logging
-from . import requests, rarfile, ctypes, tqdm, sync_playwright
+from . import requests, rarfile, ctypes, stealth, tqdm, sync_playwright
 
 from . import QMessageBox
 
-from .commen import Header, Payload, Folder, File, load_json, save_json, error, HEADLESS
+from .commen import Header, Payload, Folder, File, USER_CONFIG,load_json, save_json, error, HEADLESS
 
 ################################################
 # USER config
-
-SHUTIL_MOVE_ERROR_REPLACE = True
-INSTALL_COMMENREDIST_STEAMRIP = True
 
 ################################################
 # DEFAULT CONST
@@ -57,7 +54,7 @@ class DirectLinkDownloader:
             logging.info("Downloader:1Ficher Creating Broswser intance")
             browser = p.chromium.launch(headless=HEADLESS)
             context = browser.new_context()
-            #stealth_sync(context)  # Apply stealth mode directly
+            stealth.stealth_sync(context)  # Apply stealth mode directly
             page = context.new_page()
             logging.info("Downloader:1Ficher Successfull")
             
@@ -66,10 +63,10 @@ class DirectLinkDownloader:
             logging.info("Downloader:1Ficher Site loading finished")
                 
             if page.locator("#closeButton").count() > 0:
-                    ctypes.windll.user32.MessageBoxW(0, "1Ficher file hosting has a limitation of max downloads\n1 per houre this process will be stopped", "1ficher is on cooldown", 0x40 | 0x1)  
-                    page.close()
-                    browser.close()
-                    return -1
+                ctypes.windll.user32.MessageBoxW(0, "1Ficher file hosting has a limitation of max downloads\n1 per houre this process will be stopped", "1ficher is on cooldown", 0x40 | 0x1)  
+                page.close()
+                browser.close()
+                return -1
 
             for step in steps:
 
@@ -355,15 +352,16 @@ def _steamrip_get_main_path() -> str:
                 
         elif os.path.isdir(os.path.join(os.getcwd(), TEMP_DIR, file)):
             __main_folder = file
-        
-    for file in os.listdir(os.path.join(os.getcwd(), TEMP_DIR, __commen)):
-        if not file in steamrip_data['commenredist']:
-            logging.info(f"Missing Commenredist: {file}")
-            os.system(os.path.join(os.getcwd(), TEMP_DIR, __commen, file))
-            steamrip_data["commenredist"].append(file)
-            save_json(os.path.join(os.getcwd(), CONFIG_DIR, STEAMRIP_JSON_NAME),steamrip_data)
-        
-        logging.info("Commenredist installation successfull")
+    
+    if USER_CONFIG.INSTALL_COMMENREDIST_STEAMRIP:
+        for file in os.listdir(os.path.join(os.getcwd(), TEMP_DIR, __commen)):
+            if not file in steamrip_data['commenredist']:
+                logging.info(f"Missing Commenredist: {file}")
+                os.system(os.path.join(os.getcwd(), TEMP_DIR, __commen, file))
+                steamrip_data["commenredist"].append(file)
+                save_json(os.path.join(os.getcwd(), CONFIG_DIR, STEAMRIP_JSON_NAME),steamrip_data)
+            
+            logging.info("Commenredist installation successfull")
 
     return os.path.join(os.getcwd(), TEMP_DIR, __main_folder), __main_folder
 
