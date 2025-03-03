@@ -129,7 +129,7 @@ STEAMRIP_JSON_NAME = "steamrip.json"
 USER_CONFIG_JSON_NAME = "userconfig.json"
 
 NAME = "SyntaxRipper"
-VERSION = "0.0.1"
+VERSION = "0.1.2"
 DOWNLOADER_VERSION = "1.0.0"
 
 HEADLESS = False
