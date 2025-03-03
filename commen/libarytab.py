@@ -1,7 +1,7 @@
 from . import QWidget, QVBoxLayout, QLabel, QScrollArea, QStackedWidget, QHBoxLayout, QPushButton, QLineEdit
 from . import Qt
 
-from . import commen, rungame, downloader, Player
+from . import commen, rungame, downloader
 from . import threading, logging, os 
 
 #w
