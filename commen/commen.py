@@ -69,6 +69,15 @@ def get_QSS(path) -> str:
     
     return qss
 
+def get_file_content(in_path, filename, error_data = "") -> str:
+    File.check_existence(in_path, filename, create=True, add_conten=error_data)
+    
+    with open(os.path.join(in_path, filename), "r") as file:
+        data = file.read()
+        file.close()
+    
+    return data
+
 def _gen_config_path(config_file_name) -> str:
     if config_file_name != "":
         logging.debug(f"Config_path: {config_file_name}")
@@ -129,7 +138,6 @@ STEAMRIP_JSON_NAME = "steamrip.json"
 USER_CONFIG_JSON_NAME = "userconfig.json"
 
 NAME = "SyntaxRipper"
-VERSION = "0.1.2"
 DOWNLOADER_VERSION = "1.0.0"
 
 HEADLESS = False
@@ -152,6 +160,8 @@ DEFAULT_BACKGROUND_COLOR = get_QSS(_gen_asset_path(AssetFilenames.default_backgr
 GAMES_BROWSER_SCROLLABLE_LIBARY = get_QSS(_gen_asset_path(AssetFilenames.game_scrollable_area_libary))
 QLINE_EDIT_ARGS_LIBARY = get_QSS(_gen_asset_path(AssetFilenames.qline_edit_args_libary))
 ARGS_SAVE_BUTTON_LIBARY = get_QSS(_gen_asset_path(AssetFilenames.args_save_button_libary))
+
+VERSION = get_file_content(os.path.join(os.getcwd(), CONFIG_DIR), "version.txt", error_data="0.1.2")
 
 ################################################
 # Consts 
