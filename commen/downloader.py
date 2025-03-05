@@ -421,7 +421,7 @@ def _game_naming(use_folder_name = ""):
                     if name.endswith(".exe"):
                         exes.append(name)
                         if folder_name.replace(" ", "").lower() in name.replace(" ", "").lower():
-                            print(path)
+                            logging.debug(path)
                             full_path_game_execution = os.path.join(path, name)
                             logging.info(f"Main game file detected: {full_path_game_execution}")
                             break
@@ -438,16 +438,16 @@ def _game_naming(use_folder_name = ""):
                                 full_path_game_execution = os.path.join(GAME_DIR, folder_name, temp_name)
         if full_path_game_execution == None or not full_path_game_execution.endswith(".exe"):
             for file in exes:
-                print(file)
+                logging.debug(file)
                 if not file.endswith(".exe"):
                     continue
                 if "unity" in file.lower():
                     continue
                 full_path_game_execution = os.path.join(GAME_DIR, folder_name, file)
                 break
-        
-        #full_path_game_execution = full_path_game_execution[len(os.getcwd()) + 1:]
-        print(full_path_game_execution)
+        if not full_path_game_execution.startswith("Games"):
+            full_path_game_execution = full_path_game_execution[len(os.getcwd()) + 1:]
+        logging.debug(full_path_game_execution, len(os.getcwd()))
         return full_path_game_execution, folder_name
 
 def _add_game_info(full_path_game_execution, folder_name, default = False):
