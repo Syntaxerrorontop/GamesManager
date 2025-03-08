@@ -54,7 +54,7 @@ class DirectLinkDownloader:
             logging.info("Downloader:1Ficher Creating Broswser intance")
             browser = p.chromium.launch(headless=HEADLESS)
             context = browser.new_context()
-            stealth.stealth_sync(context)  # Apply stealth mode directly
+            #stealth.stealth_sync(context)  # Apply stealth mode directly
             page = context.new_page()
             logging.info("Downloader:1Ficher Successfull")
             
