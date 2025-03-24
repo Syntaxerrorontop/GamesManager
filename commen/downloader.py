@@ -50,7 +50,7 @@ class DirectLinkDownloader:
         
         with sync_playwright() as p:
             logging.info("Downloader:1Ficher Creating Broswser intance")
-            browser = p.chromium.launch(headless=HEADLESS)
+            browser = p.webkit.launch(headless=HEADLESS)
             context = browser.new_context()
             #stealth.stealth_sync(context)  # Apply stealth mode directly
             page = context.new_page()
@@ -130,7 +130,7 @@ class DirectLinkDownloader:
         with sync_playwright() as p:
             logging.info("Downloader:gofile Launching playwright Instance (Chromium)")
             # Launch the browser
-            browser = p.chromium.launch(headless=True)
+            browser = p.webkit.launch(headless=True)
             context = browser.new_context()
             page = context.new_page()
             
