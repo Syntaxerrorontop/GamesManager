@@ -1,5 +1,5 @@
-from . import time, subprocess, os, psutil, logging, json
-from .commen import CONFIG_DIR, GAMES_JSON_DATA, save_json, load_json
+from . import time, subprocess, os, psutil, logging, json, shutil
+from .commen import CONFIG_DIR, GAMES_JSON_DATA, GAME_DIR, save_json, load_json
 
 class GameInstance:
     def __init__(self, name, path, args, play_button):
@@ -61,3 +61,9 @@ class GameInstance:
             save_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA), data)
         except json.JSONDecodeError as e:
             logging.warning(f"Error while saving Playtime: {e}")
+
+def uninstall(game_name: str):
+    data = load_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA))
+    del data["Games"][game_name]
+    save_json(os.path.join(os.getcwd(), CONFIG_DIR, GAMES_JSON_DATA), data)
+    shutil.rmtree(os.path.join(os.getcwd(), GAME_DIR, game_name))

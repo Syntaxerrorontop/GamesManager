@@ -3,6 +3,8 @@
 
 from . import logging, os, shutil, json, ctypes
 
+from .Plugins.PluginManager import PluginManager
+
 ###############################################
 # Inits
 
@@ -144,6 +146,8 @@ HEADLESS = False
 
 ################################################
 # Consts using function
+
+PLUGIN_MANAGER = PluginManager()
 
 WINDOW_SIZE = Cords(1920, 1080)
 

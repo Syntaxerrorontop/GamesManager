@@ -1,7 +1,5 @@
 from . import re, time, json, random, string, os, logging
-from . import requests, rarfile, ctypes, stealth, tqdm, sync_playwright
-
-from . import QMessageBox
+from . import requests, rarfile, ctypes, tqdm, sync_playwright
 
 from .commen import Header, Payload, Folder, File, USER_CONFIG,load_json, save_json, error, HEADLESS
 

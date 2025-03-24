@@ -27,7 +27,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QStackedW
 from PyQt5.QtCore import Qt
 
 from playwright.sync_api import sync_playwright #playwright install
-from playwright_stealth import stealth
+#from playwright_stealth import stealth
 
 #######################################################################
 # relativ imports

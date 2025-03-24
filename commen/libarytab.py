@@ -127,7 +127,11 @@ class LibaryTab(QWidget):
             play_button.setStyleSheet(commen.PLAY_BUTTON_STYLESHEET_LIBARY)
             play_button.move(5, 175)
             play_button.clicked.connect(lambda _, instance = rungame.GameInstance(raw_name, raw_exe, raw_args, play_button): self._rungame_handling(instance))
-
+            
+            uninstall_button = QPushButton(page)
+            uninstall_button.setText("Uninstall")
+            uninstall_button.move(5, 200)
+            uninstall_button.clicked.connect(lambda _, name=raw_name: (rungame.uninstall(name), self.update_list()))
             line_edit.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
 
             # Add page to stacked widget
