@@ -1,0 +1,15 @@
+{
+    "version": "1.0.0.0",
+    "dlls": [
+        "git2.dll",
+        "libcurl.dll",
+        "pcre.dll",
+        "zlib1.dll"
+    ],
+    "name": "Autoupdater",
+    "extensions": [
+        ".exe",
+        ".pdb"
+    ],
+    "download": "https://github.com/Syntaxerrorontop/GamesManager/releases/tag/1.0.0.0/autoupdater.zip"
+}
