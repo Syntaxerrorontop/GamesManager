@@ -1,4 +1,4 @@
-# Project Name
+# Games Manager
 
 ## Description
 This project is a compiled Python script created purely for educational and personal learning purposes. It serves as a way to practice and improve coding skills. Please note that this program **does not support piracy** and is not intended for any illegal activities.
