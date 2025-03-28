@@ -1,4 +1,5 @@
 QScrollArea {
-    background: #333; /* Dark Gray Background */
-    border: 5px solid #472980;
+    background-color: #1c1c1c;  /* Dark Gray Background */
+    border: 5px solid #ff4c4c;  /* Red Border */
+    border-radius: 10px;  /* Rounded Corners for smoothness */
 }

@@ -1,23 +1,27 @@
 QTabBar::tab {
-    min-width: 445px;  /* Mindestbreite der Tabs */
-    min-height: 50px;  /* Mindesthöhe der Tabs */
+    min-width: 445px;  /* Minimum width of the tabs */
+    min-height: 50px;  /* Minimum height of the tabs */
     padding: 10px;
-    font-size: 14px;
-    color: #ffffff;
-    background:rgb(162, 162, 240);
-    border: 1px solid #555;
+    font-size: 20px;
+    color: #ff4c4c;  /* Red Text */
+    background-color: #333333;  /* Dark Gray Background */
+    border: 1px solid #555;  /* Darker Border */
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     margin-right: 5px;
 }
+
 QTabBar::tab:selected {
-    background: #4d4d99;  /* Farbe des ausgewählten Tabs */
-    border-bottom: 5px solid #8957ff;
+    background-color: #ff4c4c;  /* Red for selected tab */
+    color: #1c1c1c;  /* Dark Gray Text for selected tab */
+    border-bottom: 5px solid #b33939;  /* Darker Red Border for selected tab */
 }
+
 QTabBar::tab:hover {
-    background: #d9d9ff;  /* Hover-Effekt */
-    border-bottom: 5px solid #b3b3ff;
+    background-color: #b33939;  /* Dark Red Hover Effect */
+    border-bottom: 5px solid #ff4c4c;  /* Red Border on Hover */
 }
+
 QTabBar::tab:first {
-    margin-left: 8px;  /* Move the first tab 2px from the left */
+    margin-left: 8px;  /* Move the first tab 8px from the left */
 }

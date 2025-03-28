@@ -1,15 +1,20 @@
 QPushButton {
-    color:rgb(40, 1, 82);
-    background: #c69df2;
+    color: #ff4c4c;  /* Red Text */
+    background-color: #333333;  /* Dark Gray Background */
     min-width: 300px;
     min-height: 50px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border: 2px solid #555;
+    border-radius: 8px;  /* Rounded Corners */
+    border: 2px solid #ff4c4c;  /* Red Border */
     font-size: 30px;
+    padding: 10px;
 }
+
 QPushButton::hover {
-    background: #debfff;
+    background-color: #ff4c4c;  /* Red Hover Background */
+    color: #1c1c1c;  /* Dark Gray Text on Hover */
+}
+
+QPushButton::pressed {
+    background-color: #b33939;  /* Darker Red when Pressed */
+    color: #ffffff;  /* White Text when Pressed */
 }
