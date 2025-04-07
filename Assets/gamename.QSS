@@ -1,6 +1,0 @@
-QLabel {
-    color: #ff4c4c;  /* Red Text */
-    font-size: 70px;
-    font-weight: bold;
-    background: transparent;  /* No background, blends with UI */
-}

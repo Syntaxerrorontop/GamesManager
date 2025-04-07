@@ -1,5 +1,0 @@
-QTabWidget {
-    background-color: #2a2a2a;  /* Dark Gray Background */
-    border: 1px solid #555;  /* Subtle Border to blend with UI */
-    border-radius: 8px;  /* Rounded Corners */
-}
