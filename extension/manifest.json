@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "Megadb Integration",
+    "version": "1.0.0.1",
+    "description": "This Extension extract the DDL from Megadb to integrate it into softwear to download files. it sends all information at: http://localhost:5000/headers",
+    "permissions": [
+      "webRequest"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "host_permissions": [
+      "https://megadb.net/*"
+    ]
+  }
+  
